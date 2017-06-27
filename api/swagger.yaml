@@ -1,0 +1,167 @@
+---
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Swagger Pedidos"
+  termsOfService: ""
+  contact:
+    email: "jeordane.batista@hotmail.com"
+host: "localhost:4000"
+basePath: "/v1"
+tags:
+- name: "pedidos"
+  description: ""
+- name: "orcamentos"
+  description: ""
+schemes:
+- "http"
+paths:
+  /pedidos/solicitacao:
+    post:
+      tags:
+      - "pedidos"
+      summary: "Solicita pedido"
+      description: ""
+      operationId: "solicitar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Pedidos"
+  /pedidos/situacao:
+    post:
+      tags:
+      - "pedidos"
+      summary: "Atualiza situação do pedido"
+      description: ""
+      operationId: "atualizar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body_1"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Pedidos"
+  /orcamentos/aprovado:
+    post:
+      tags:
+      - "orcamentos"
+      summary: "Aceita proposta do orçamento"
+      description: ""
+      operationId: "aprovar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body_2"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Orcamentos"
+  /orcamentos/rejeitado:
+    post:
+      tags:
+      - "orcamentos"
+      summary: "Rejeita proposta do orçamento"
+      description: ""
+      operationId: "rejeitar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body_3"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Orcamentos"
+definitions:
+  solicitar:
+    type: "object"
+    properties:
+      codProduto:
+        type: "integer"
+        format: "int64"
+      quantItems:
+        type: "integer"
+      obersavacoes:
+        type: "string"
+  aprovar:
+    type: "object"
+    properties:
+      aprovar:
+        type: "boolean"
+  rejeitar:
+    type: "object"
+    properties:
+      rejeitar:
+        type: "boolean"
+  situacao:
+    type: "object"
+    properties:
+      situacao:
+        type: "string"
+  inline_response_200:
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+  body:
+    type: "object"
+    properties:
+      codProduto:
+        type: "integer"
+        format: "int64"
+      quantItems:
+        type: "integer"
+      obersavacoes:
+        type: "string"
+  body_1:
+    type: "object"
+    properties:
+      situacao:
+        type: "string"
+  body_2:
+    type: "object"
+    properties:
+      aprovar:
+        type: "boolean"
+  body_3:
+    type: "object"
+    properties:
+      rejeitar:
+        type: "boolean"
