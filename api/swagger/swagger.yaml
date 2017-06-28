@@ -1,0 +1,239 @@
+---
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Swagger Pedidos"
+  termsOfService: ""
+  contact:
+    email: "jeordane.batista@hotmail.com"
+host: "localhost:4000"
+basePath: "/v1"
+tags:
+- name: "pedidos"
+  description: ""
+- name: "orcamentos"
+  description: ""
+schemes:
+- "http"
+paths:
+  /pedidos/solicitacao:
+    post:
+      tags:
+      - "pedidos"
+      summary: "Solicita pedido"
+      description: ""
+      operationId: "solicitar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Pedidos"
+  /pedidos/situacao/{idPedido}:
+    get:
+      tags:
+        - pedidos
+      summary: Recupera situação
+      description: Recupera situação do pedido pelo seu id
+      operationId: findSituacaoByPedido
+      produces:
+        - application/json
+      parameters:
+        - name: idPedido
+          in: path
+          description: Id do pedido
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/SucessResponse'
+        400:
+          description: Id inválido
+        404:
+          description: Situação não encontrada
+      x-swagger-router-controller: Pedidos      
+    put:
+      tags:
+        - pedidos
+      summary: Atuaiza situacao
+      description: ''
+      operationId: atualizarSituacao
+      produces:
+        - application/json
+      parameters:
+        - name: idPedido
+          in: path
+          description: Id do pedido para atualização da situação do mesmo
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Objeto da situação que será atualizada
+          required: true
+          schema:
+            $ref: '#/definitions/SituacaoBodyPut'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/SucessResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"   
+      x-swagger-router-controller: Pedidos
+  /orcamentos/envio:
+    post:
+      tags:
+      - "orcamentos"
+      summary: "Enviar orçamento"
+      description: ""
+      operationId: "enviar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/EnviarOrcamentoBodyPost"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/SucessResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"    
+      x-swagger-router-controller: "Orcamentos"      
+  /orcamentos/aprovado:
+    post:
+      tags:
+      - "orcamentos"
+      summary: "Aceita proposta do orçamento"
+      description: ""
+      operationId: "aprovar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/AprovarBodyPost"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/SucessResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+      x-swagger-router-controller: "Orcamentos"
+  /orcamentos/rejeitado:
+    post:
+      tags:
+      - "orcamentos"
+      summary: "Rejeita proposta do orçamento"
+      description: ""
+      operationId: "rejeitar"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/ReprovarBodyPost"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/SucessResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+      x-swagger-router-controller: "Orcamentos"
+definitions:
+  SucessResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string   
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  EnviarOrcamentoBodyPost:
+    type: "object"
+    properties:
+      numero:
+        type: integer
+        description: Número do orçamento
+      entrega:
+        type: string
+        format: date
+        description: Data de entrega do pedido
+  AprovarBodyPost:
+    type: "object"
+    properties:
+      numero:
+        type: integer
+        description: Número do orçamento
+      aprovar:
+        type: boolean
+        description: Valor booelano de aprovação  
+  ReprovarBodyPost:
+    type: "object"
+    properties:
+      numero:
+        type: integer
+        description: Número do orçamento
+      aprovar:
+        type: boolean
+        description: Valor booelano de reprovação            
+  body:
+    type: "object"
+    properties:
+      codProduto:
+        type: "integer"
+        format: "int64"
+      quantItems:
+        type: "integer"
+      obersavacoes:
+        type: "string"
+  SituacaoBodyPut:
+    type: "object"
+    properties:
+      situacao:
+        type: string
+        description: Nova situação do pedido            
